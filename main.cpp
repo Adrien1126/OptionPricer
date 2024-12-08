@@ -1,29 +1,30 @@
-#include "Option.h"
-#include "EuropeanOption.h"
-#include "AmericanOption.h"
+#include "Discretisation.h"
+#include "NumericalSolver.h"
 #include <iostream>
 
 int main() {
-    // Données pour les options
-    std::string contractType = "CALL";
-    std::string exerciseTypeEuropeenne = "EUROPEAN";
-    std::string exerciseTypeAmericaine = "AMERICAN";
-    double maturity = 2.0; // 2 ans
-    double strike = 100.0; // Prix d'exercice
-    double volatility = 0.25; // 25% volatilité
+    // Grilles de discrétisation
+    Discretisation discretisation;
+    discretisation.generateTimeGrid(0.01, 1.0);  // Pas de temps 0.01 jusqu'à T=1.0
+    discretisation.generateSpotGrid(5.0, 100.0);  // Pas de spot 5 jusqu'à Smax=100
 
-    // Instanciation des options
-    EuropeanOption europeenne(contractType, exerciseTypeEuropeenne, maturity, strike, volatility);
-    AmericanOption americaine(contractType, exerciseTypeAmericaine, maturity, strike, volatility);
+    // Instanciation du solveur
+    NumericalSolver solver(discretisation.getTimeGrid(), discretisation.getSpotGrid());
 
-    // Appel des méthodes
-    std::cout << "=== Option Européenne ===" << std::endl;
-    europeenne.afficherDetails();
-    std::cout << "Prix de l'option : " << europeenne.calculPrix() << std::endl;
+    // Résolution de l'EDP (Option Européenne CALL)
+    double K = 50.0;     // Strike
+    double r = 0.05;     // Taux sans risque
+    double sigma = 0.2;  // Volatilité
+    double T = 1.0;      // Maturité
 
-    std::cout << "\n=== Option Américaine ===" << std::endl;
-    americaine.afficherDetails();
-    std::cout << "Prix de l'option : " << americaine.calculPrix() << std::endl;
+    std::vector<double> result = solver.resoudreEDP(K, r, sigma, T);
+
+    // Affichage des résultats
+    std::cout << "Prix de l'option (grille finale) :\n";
+    for (size_t i = 0; i < discretisation.getSpotGrid().size(); ++i) {
+        std::cout << "Spot: " << discretisation.getSpotGrid()[i]
+                  << ", Prix: " << result[i] << "\n";
+    }
 
     return 0;
 }
