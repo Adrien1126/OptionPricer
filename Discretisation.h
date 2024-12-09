@@ -9,8 +9,8 @@ private:
     std::vector<double> timeGrid_;
     std::vector<double> spotGrid_;
 public:
-    void generateTimeGrid(double dt, double T);
-    void generateSpotGrid(double dS, double Smax); 
+    void generateTimeGrid(int N, double T);
+    void generateSpotGrid(int M, double Smax); 
     void afficherGrid() const;
 
     // Getters pour accéder aux grilles (utile pour les tests ou intégration)

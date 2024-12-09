@@ -3,15 +3,12 @@
 #include <iostream>
 
 int main() {
-    // Grilles de discrétisation
     Discretisation discretisation;
-    discretisation.generateTimeGrid(0.01, 1.0);  // Pas de temps 0.01 jusqu'à T=1.0
-    discretisation.generateSpotGrid(5.0, 100.0);  // Pas de spot 5 jusqu'à Smax=100
+    discretisation.generateTimeGrid(100, 1.0);  // 100 pas temporels, T = 1.0
+    discretisation.generateSpotGrid(10, 100.0); // 10 pas spatiaux, Smax = 100.0
 
-    // Instanciation du solveur
     NumericalSolver solver(discretisation.getTimeGrid(), discretisation.getSpotGrid());
 
-    // Résolution de l'EDP (Option Européenne CALL)
     double K = 50.0;     // Strike
     double r = 0.05;     // Taux sans risque
     double sigma = 0.2;  // Volatilité
@@ -19,7 +16,6 @@ int main() {
 
     std::vector<double> result = solver.resoudreEDP(K, r, sigma, T);
 
-    // Affichage des résultats
     std::cout << "Prix de l'option (grille finale) :\n";
     for (size_t i = 0; i < discretisation.getSpotGrid().size(); ++i) {
         std::cout << "Spot: " << discretisation.getSpotGrid()[i]

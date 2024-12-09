@@ -9,10 +9,12 @@ private:
     const std::vector<double>& grilleTemps_; // Référence à la grille de temps
     const std::vector<double>& grilleSpots_; // Référence à la grille de spots
 
-    std::vector<double> lowerDiag_; // Diagonale inférieure de la matrice
-    std::vector<double> mainDiag_;  // Diagonale principale de la matrice
-    std::vector<double> upperDiag_; // Diagonale supérieure de la matrice
-
+    std::vector<double> lowerDiagA_; // Diagonale inférieure de la matrice
+    std::vector<double> mainDiagA_;  // Diagonale principale de la matrice
+    std::vector<double> upperDiagA_; // Diagonale supérieure de la matrice
+    std::vector<double> lowerDiagB_; // Diagonale inférieure de la matrice
+    std::vector<double> mainDiagB_;  // Diagonale principale de la matrice
+    std::vector<double> upperDiagB_; // Diagonale supérieure de la matrice
 public:
     // Constructeur
     NumericalSolver(const std::vector<double>& grilleTemps, const std::vector<double>& grilleSpots)
